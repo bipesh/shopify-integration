@@ -1,0 +1,101 @@
+#%RAML 1.0
+baseUri: https://mocksvc.mulesoft.com/mocks/eecafdb6-726a-46b3-93cf-9a1897ae0c6d # 
+title: Shopify Integration
+version: v1.0
+protocols: HTTP
+mediaType: application/json
+ 
+securitySchemes:
+  basic:
+    description: |
+      This API supports Basic Authentication.
+    type: Basic Authentication
+          
+
+securedBy: [basic]
+
+types: 
+  customer: !include types/customer.raml
+  address: !include types/address.raml
+  
+/account:
+  displayName: Customer_Account
+  description: customer operations
+  get:
+    description: Read all customers matching query criteria or else all customers
+    displayName: Read_Customers
+    queryParameters: 
+      first_name?: string
+      last_name?: string
+      email?: string
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: customer
+            example: !include examples/customer_example.raml
+  post:
+    displayName: Update_Customer
+    description: Update Customer
+    body: 
+      application/json:
+        type: customer
+        example: !include examples/customer_example.raml
+        
+            
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {"message": "Customer Information Updated Successfully"}        
+      409:
+        body:
+          application/json:
+            example:
+              {"message": "Customer Already Exists"}        
+ 
+        
+  put:
+    displayName: Add_Customer
+    description: Add a Customer
+    body: 
+      application/json:
+        type: customer
+        example: !include examples/customer_example.raml
+    responses:
+      204:
+        body:
+          application/json:
+            example:
+              {"message": "Customer Added Successfully"}
+      404:
+        body:
+          application/json:
+            example:
+              {"message": "Could not add new Customer"}
+  delete:
+    displayName: Delete_Customer
+    description: Delete Customer
+    body: 
+      application/json:
+        type: customer
+        example: !include examples/customer_example.raml
+    responses:
+      204:
+        body:
+          application/json:
+            example:
+              {"message": "Customer Successfully Deleted"}
+      404:
+        body:
+          application/json:
+            example:
+              {"message": "Could not find Customer with that Identification"}
+
+    
+      
+
+
+    
+          

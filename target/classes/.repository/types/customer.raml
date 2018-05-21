@@ -1,0 +1,16 @@
+#%RAML 1.0 DataType
+
+displayName: Customer
+type: object
+description: Represents Customer entity
+properties: 
+  id: string
+  first_name: string
+  last_name: string
+  middle_name?: string
+  phone: string
+  email: string
+  verified_email: boolean
+  accepts_marketing: boolean
+  tax_exempt: boolean
+  addresses: !include address.raml
