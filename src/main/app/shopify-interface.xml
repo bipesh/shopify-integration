@@ -4,7 +4,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
     <http:listener-config name="shopify-integration-httpListenerConfig" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
-    <apikit:config name="shopify-integration-config" raml="shopify-integration.raml" consoleEnabled="false" doc:name="Router"/>
+    <apikit:config name="shopify-integration-config" raml="shopify-integration.raml" consoleEnabled="false" doc:name="Router" keepRamlBaseUri="false"/>
     <flow name="shopify-integration-main">
         <http:listener config-ref="shopify-integration-httpListenerConfig" path="/api/*" doc:name="HTTP"/>
         <apikit:router config-ref="shopify-integration-config" doc:name="APIkit Router"/>
@@ -23,7 +23,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <set-payload value="{&#xA;&quot;message&quot; : &quot;Customer Successfully Deleted&quot;&#xA;}" doc:name="Set Payload"/>
     </flow>
     <flow name="get:/account:shopify-integration-config">
-        <set-payload value="{&#xA;&quot;id&quot; : &quot;100&quot;,&#xA;&quot;first_name&quot; : &quot;Sam&quot;,&#xA;&quot;last_name&quot; : &quot;Adams&quot;,&#xA;&quot;phone&quot; : &quot;303-222-2222&quot;,&#xA;&quot;email&quot; : &quot;anybody@email.com&quot;,&#xA;&quot;verified_email&quot; : true,&#xA;&quot;accepts_marketing&quot; : true,&#xA;&quot;tax_exempt&quot; : false,&#xA;&quot;addresses&quot; : {&#xA;&quot;address1&quot; : &quot;123 Main St&quot;,&#xA;&quot;city&quot; : &quot;Tempe&quot;,&#xA;&quot;province&quot; : &quot;AZ&quot;,&#xA;&quot;country&quot; : &quot;USA&quot;,&#xA;&quot;zip&quot; : &quot;12345&quot;,&#xA;&quot;default&quot; : true&#xA;}&#xA;}" doc:name="Set Payload"/>
+        <flow-ref name="get-shopify-flow" doc:name="get-shopify-flow"/>
     </flow>
     <flow name="post:/account:application/json:shopify-integration-config">
         <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>

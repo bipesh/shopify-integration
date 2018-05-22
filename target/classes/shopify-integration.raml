@@ -5,15 +5,6 @@ version: v1.0
 protocols: HTTP
 mediaType: application/json
  
-securitySchemes:
-  basic:
-    description: |
-      This API supports Basic Authentication.
-    type: Basic Authentication
-          
-
-securedBy: [basic]
-
 types: 
   customer: !include types/customer.raml
   address: !include types/address.raml
@@ -24,10 +15,6 @@ types:
   get:
     description: Read all customers matching query criteria or else all customers
     displayName: Read_Customers
-    queryParameters: 
-      first_name?: string
-      last_name?: string
-      email?: string
     responses: 
       200:
         body: 
