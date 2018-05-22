@@ -24,4 +24,66 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
         <http:request config-ref="Shopify_HTTP_Request_Configuration" path="/customers/#[ID].json" method="GET" doc:name="HTTP"/>
         <logger level="INFO" doc:name="Logger"/>
     </flow>
+    <flow name="put-shopify-flow">
+        <dw:transform-message doc:name="Transform Message" metadata:id="d7f0d7bc-5b59-48d1-82a8-e03a3b1a21d6">
+            <dw:input-payload doc:sample="sample_data/json.json" mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	first_name: payload.first_name,
+	last_name: payload.last_name,
+	phone: payload.phone,
+	email: payload.email,
+	verified_email: payload.verified_email,
+	accepts_marketing: payload.accepts_marketing,
+	tax_exempt: payload.tax_exempt,
+	addresses: payload.addresses map ((address , indexOfAddress) -> {
+		address1: address.address1,
+		city: address.city,
+		province: address.province,
+		country: address.country,
+		zip: address.zip,
+		default: address.default
+	})
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <set-payload value="#[message.payload]" doc:name="Set Payload"/>
+        <http:request config-ref="Shopify_HTTP_Request_Configuration" path="/customers.json" method="POST" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="post-shopify-flow">
+        <dw:transform-message doc:name="Transform Message" metadata:id="d7f0d7bc-5b59-48d1-82a8-e03a3b1a21d6">
+            <dw:input-payload doc:sample="sample_data/json.json" mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	first_name: payload.first_name,
+	last_name: payload.last_name,
+	phone: payload.phone,
+	email: payload.email,
+	verified_email: payload.verified_email,
+	accepts_marketing: payload.accepts_marketing,
+	tax_exempt: payload.tax_exempt,
+	addresses: payload.addresses map ((address , indexOfAddress) -> {
+		address1: address.address1,
+		city: address.city,
+		province: address.province,
+		country: address.country,
+		zip: address.zip,
+		default: address.default
+	})
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <set-payload value="#[message.payload]" doc:name="Set Payload"/>
+        <http:request config-ref="Shopify_HTTP_Request_Configuration" path="/customers.json" method="POST" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="delete-shopify-flow">
+        <set-variable variableName="ID" value="#[message.inboundProperties.'http.uri.params'.ID]" doc:name="Variable"/>
+        <http:request config-ref="Shopify_HTTP_Request_Configuration" path="/customers/#[ID].json" method="DELETE" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Logger"/>
+    </flow>
 </mule>
+

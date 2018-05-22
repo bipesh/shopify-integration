@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -15,23 +15,21 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <http:listener config-ref="shopify-integration-httpListenerConfig" path="/console/*" doc:name="HTTP"/>
         <apikit:console config-ref="shopify-integration-config" doc:name="APIkit Console"/>
     </flow>
-    <flow name="put:/account:application/json:shopify-integration-config">
-        <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
-        <set-payload value="{&#xA;&quot;message&quot; : &quot;Customer Added Successfully&quot;&#xA;}" doc:name="Set Payload"/>
-    </flow>
-    <flow name="delete:/account:application/json:shopify-integration-config">
-        <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
-        <set-payload value="{&#xA;&quot;message&quot; : &quot;Customer Successfully Deleted&quot;&#xA;}" doc:name="Set Payload"/>
-    </flow>
     <flow name="get:/account:shopify-integration-config">
         <flow-ref name="get-shopify-flow" doc:name="get-shopify-flow"/>
     </flow>
     <flow name="get:/account/{ID}:shopify-integration-config">
         <flow-ref name="get-id-shopify-flow" doc:name="get-id-shopify-flow"/>
     </flow>
-    <flow name="post:/account:application/json:shopify-integration-config">
+    <flow name="put:/account:application/json:shopify-integration-config">
         <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
-        <set-payload value="{&#xA;&quot;message&quot; : &quot;Customer Information Updated Successfully&quot;&#xA;}" doc:name="Set Payload"/>
+        <set-payload value="{&#xA;&quot;message&quot; : &quot;Customer Added Successfully&quot;&#xA;}" doc:name="Set Payload"/>
+    </flow>
+    <flow name="post:/account:application/json:shopify-integration-config">
+        <flow-ref name="post-shopify-flow" doc:name="post-shopify-flow"/>
+    </flow>
+    <flow name="delete:/account/{ID}:shopify-integration-config">
+        <flow-ref name="delete-shopify-flow" doc:name="delete-shopify-flow"/>
     </flow>
     <apikit:mapping-exception-strategy name="shopify-integration-apiKitGlobalExceptionMapping">
         <apikit:mapping statusCode="404">

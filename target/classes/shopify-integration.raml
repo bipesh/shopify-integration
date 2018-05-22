@@ -24,13 +24,48 @@ types:
   
   /{ID}:
     get:
+      displayName: Read_Customer
+      description: Retrieves customer by ID
       responses:
         200:
           body:
             application/json:
               type: customer
               example: !include examples/customer_example.raml
- 
+    delete:
+      displayName: Delete_Customer
+      description: Deletes Customer Record
+      responses: 
+        200:
+          body: 
+            application/json:
+              example: 
+                {"message": "Customer Successfully Deleted"}
+        404:
+          body:
+            application/json:
+              example:
+                {"message": "Could not find Customer with that Identification"}
+
+  put:
+    displayName: Add_Customer
+    description: Add a Customer
+    body: 
+      application/json:
+        type: customer
+        example: !include examples/customer_example.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {"message": "Customer Added Successfully"}
+      403:
+        body:
+          application/json:
+            example:
+              {"message": "Customer Already Exists"}      
+
   post:
     displayName: Update_Customer
     description: Update Customer
@@ -38,10 +73,8 @@ types:
       application/json:
         type: customer
         example: !include examples/customer_example.raml
-        
-            
     responses:
-      201:
+      200:
         body:
           application/json:
             example:
@@ -51,45 +84,6 @@ types:
           application/json:
             example:
               {"message": "Customer Already Exists"}        
- 
-        
-  put:
-    displayName: Add_Customer
-    description: Add a Customer
-    body: 
-      application/json:
-        type: customer
-        example: !include examples/customer_example.raml
-    responses:
-      204:
-        body:
-          application/json:
-            example:
-              {"message": "Customer Added Successfully"}
-      404:
-        body:
-          application/json:
-            example:
-              {"message": "Could not add new Customer"}
-  delete:
-    displayName: Delete_Customer
-    description: Delete Customer
-    body: 
-      application/json:
-        type: customer
-        example: !include examples/customer_example.raml
-    responses:
-      204:
-        body:
-          application/json:
-            example:
-              {"message": "Customer Successfully Deleted"}
-      404:
-        body:
-          application/json:
-            example:
-              {"message": "Could not find Customer with that Identification"}
-      
 
     
       
