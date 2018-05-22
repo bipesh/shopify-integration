@@ -19,4 +19,9 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
         <http:request config-ref="Shopify_HTTP_Request_Configuration" path="/customers.json" method="GET" doc:name="HTTP"/>
         <logger level="INFO" doc:name="Logger"/>
     </flow>
+    <flow name="get-id-shopify-flow">
+        <set-variable variableName="ID" value="#[message.inboundProperties.'http.uri.params'.ID]" doc:name="Variable"/>
+        <http:request config-ref="Shopify_HTTP_Request_Configuration" path="/customers/#[ID].json" method="GET" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Logger"/>
+    </flow>
 </mule>

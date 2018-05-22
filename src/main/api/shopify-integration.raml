@@ -21,6 +21,16 @@ types:
           application/json:
             type: customer
             example: !include examples/customer_example.raml
+  
+  /{ID}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: customer
+              example: !include examples/customer_example.raml
+ 
   post:
     displayName: Update_Customer
     description: Update Customer
@@ -79,6 +89,7 @@ types:
           application/json:
             example:
               {"message": "Could not find Customer with that Identification"}
+      
 
     
       
